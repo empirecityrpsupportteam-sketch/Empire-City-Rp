@@ -715,11 +715,12 @@ const PERMISSIONS=[
   {key:'review_complaints',label:'Review Complaints',info:'Mark complaints as Resolved.',dflt:['admin','senior_admin','chief_admin','curator','owner']},
   {key:'mark_under_review',label:'Mark Under Review',info:'Send complaints to Under Investigation.',dflt:['admin','senior_admin','chief_admin','curator','owner']},
   {key:'resolve_underreview',label:'Resolve Under Investigation',info:'Resolve Under Review complaints.',dflt:['senior_admin','chief_admin','curator','owner']},
-  {key:'rereview',label:'Re-Review Complaints',info:'Return resolved complaints to Pending.',dflt:['senior_admin','chief_admin','curator','owner']},
+  {key:'rereview',label:'Re-Review Complaints',info:'Return resolved complaints to Pending. (Rank 06+ only)',dflt:['chief_admin','curator','owner']},
   {key:'delete_complaints',label:'Delete Any Complaint',info:'Permanently delete any complaint.',dflt:['curator','owner']},
   {key:'post_announcement',label:'Post Announcements',info:'Create new announcements.',dflt:['senior_admin','chief_admin','curator','owner']},
   {key:'del_any_announcement',label:'Delete Any Announcement',info:'Delete any announcement.',dflt:['chief_admin','curator','owner']},
   {key:'manage_members',label:'Manage Member Roles & Tags',info:'Promote, demote, assign tags.',dflt:['senior_admin','chief_admin','curator','owner']},
+  {key:'manage_individual_perms',label:'Manage Individual Permissions',info:'Open and save individual permission overrides for members. Owner-only by default; owner can grant this to admins.',dflt:['owner']},
   {key:'manage_orgs',label:'Manage Organisations',info:'Add/remove org leaders.',dflt:['chief_admin','curator','owner']},
   {key:'view_logs',label:'View System Logs',info:'Read all system action logs.',dflt:['senior_admin','chief_admin','curator','owner']},
   {key:'delete_logs',label:'Delete Log Entries',info:'Permanently delete log entries.',dflt:['owner']},
@@ -1366,7 +1367,7 @@ async function ldMem(sid){
           ${roleSelect}
           ${canIn(sid,'kick_member')&&canMod?`<button class="bact bru" onclick="kickMember('${esc(u.uid)}','${esc(u.ingameName)}','${sid}')">Kick</button>`:''}
           ${canIn(sid,'ban_member')&&canMod?`<button class="bact bdel" onclick="banMember('${esc(u.uid)}','${esc(u.ingameName)}','${sid}')">Ban</button>`:''}
-          <button class="bact bperm" onclick="openPermModal('${esc(u.uid)}','${sid}')">Perms</button>
+          ${(isGO()||canIn(sid,'manage_individual_perms'))?`<button class="bact bperm" onclick="openPermModal('${esc(u.uid)}','${sid}')">Perms</button>`:''}
         </div>
       </div>`;
     }).join(''):'<div class="emp"><p>No members found.</p></div>';
@@ -1650,6 +1651,7 @@ async function delLog(sid,key){
 
 /* ── PERMISSIONS MODAL ── */
 function openPermModal(uid,sid){
+  if(!isGO()&&!canIn(sid,'manage_individual_perms')){toast('No permission to manage individual permissions.','er');return;}
   permTargetUid=uid;permSid=sid;
   DB.ref('users/'+uid).once('value').then(sn=>{
     const u=sn.val()||{};
@@ -1686,6 +1688,7 @@ function setPermL(key,val){
 }
 
 async function savePermissions(){
+  if(!isGO()&&!canIn(permSid,'manage_individual_perms')){toast('No permission to manage individual permissions.','er');return;}
   if(!permTargetUid||!permSid)return;
   const updates={};
   PERMISSIONS.forEach(p=>{if(localPermOvr.hasOwnProperty(p.key)&&localPermOvr[p.key]!=='def')updates[p.key]=localPermOvr[p.key];});
