@@ -247,6 +247,8 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .rc-senior_admin{background:rgba(255,153,0,.08);color:var(--wa);border:1px solid rgba(255,153,0,.3)}
 .rc-chief_admin{background:rgba(59,139,255,.08);color:var(--bl);border:1px solid rgba(59,139,255,.3)}
 .rc-curator{background:rgba(184,79,255,.08);color:var(--nm);border:1px solid rgba(184,79,255,.3)}
+.rc-co_owner{background:rgba(255,51,153,.12);color:#ff3399;border:1px solid rgba(255,51,153,.45)}
+.rc-technical_admin{background:rgba(120,144,156,.12);color:#78909c;border:1px solid rgba(120,144,156,.4)}
 .rc-owner{background:rgba(0,255,231,.08);color:var(--ne);border:1px solid rgba(0,255,231,.3)}
 .rc-custom{background:rgba(201,162,39,.1);color:#f0c040;border:1px solid rgba(201,162,39,.4)}
 
@@ -393,6 +395,8 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .stsn{background:rgba(255,153,0,.08);color:var(--wa);border:1px solid rgba(255,153,0,.3)}
 .stch{background:rgba(59,139,255,.08);color:var(--bl);border:1px solid rgba(59,139,255,.3)}
 .stcu{background:rgba(184,79,255,.08);color:var(--nm);border:1px solid rgba(184,79,255,.3)}
+.stco{background:rgba(255,51,153,.1);color:#ff3399;border:1px solid rgba(255,51,153,.4)}
+.st_ta{background:rgba(120,144,156,.1);color:#78909c;border:1px solid rgba(120,144,156,.4)}
 .stow{background:rgba(0,255,231,.08);color:var(--ne);border:1px solid rgba(0,255,231,.3)}
 .stj{background:rgba(0,229,122,.08);color:var(--gn);border:1px solid rgba(0,229,122,.3)}
 
@@ -534,7 +538,7 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:2.5rem 0 1.
     <p class="ssl">The team behind Empire City RP</p>
     <div class="lds">
       <div class="ldc"><div class="ldv">SM</div><div class="ldn">Shafin_Mirza</div><div class="ldr">Technical Administrator</div><div class="ldb bdev">🖥️ Technical Admin</div><div class="ldbio">The visionary architect and Technical Administrator of Empire City RP. Leads all development and long-term product direction across all 4 servers.</div></div>
-      <div class="ldc"><div class="ldv">SR</div><div class="ldn">Sanu_Rajputt</div><div class="ldr">Chief Project Curator</div><div class="ldb bcur">👑 Curator</div><div class="ldbio">Oversees community management, staff coordination, and quality control across all servers to ensure the project stays true to its vision.</div></div>
+      <div class="ldc"><div class="ldv">SR</div><div class="ldn">Subrata Jana</div><div class="ldr">Chief Project Curator</div><div class="ldb bcur">👑 Curator</div><div class="ldbio">Oversees community management, staff coordination, and quality control across all servers to ensure the project stays true to its vision.</div></div>
     </div>
   </div>
 </section>
@@ -606,6 +610,40 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:2.5rem 0 1.
   </div>
 </div>
 
+<!-- CO-OWNER PANEL MODAL -->
+<div class="ovl" id="ov-coown" onclick="if(event.target===this)closeCoOwn()">
+  <div class="mdl mdl-lg">
+    <button class="mcl" onclick="closeCoOwn()">✕</button>
+    <div class="mlo"><div class="mlem" style="background:linear-gradient(135deg,#ff3399,#6b0045);color:#fff">CO</div><h2 style="color:#ff3399">CO-OWNER PANEL</h2><p>Assign Roles Across All Servers</p></div>
+
+    <div style="margin-bottom:1rem">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:.4rem">👤 User Management</div>
+      <div class="fg" style="margin-bottom:.4rem">
+        <input type="text" id="cop-search" placeholder="Type in-game name to search…" oninput="copSearch()" style="padding:.5rem .75rem;background:var(--bg4);border:1px solid rgba(240,192,64,.2);border-radius:var(--rr);color:var(--tx);font-size:.82rem;font-family:'Inter',sans-serif;outline:none;width:100%"/>
+      </div>
+      <div id="cop-results" style="max-height:160px;overflow-y:auto;border:1px solid var(--bdr);border-radius:var(--rr);margin-bottom:.5rem;display:none"></div>
+    </div>
+
+    <div id="cop-user-info" class="hidden">
+      <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--bg4);border-radius:var(--rr);margin-bottom:1rem">
+        <div class="dav" id="cop-av" style="width:42px;height:42px;font-size:.9rem;border-color:#ff3399">?</div>
+        <div><div style="font-family:'Orbitron',sans-serif;font-size:.75rem;font-weight:700;color:#ff3399" id="cop-uname">—</div><div style="font-size:.62rem;color:var(--dm)" id="cop-uemail">—</div></div>
+      </div>
+
+      <div style="font-family:'Rajdhani',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:.5rem">Server Roles <span style="color:var(--dm);font-size:.52rem;text-transform:none;letter-spacing:0">(Max assignable: Chief Project Curator)</span></div>
+      <div id="cop-roles-wrap">
+        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#00ffe7">S01</span><select id="cop-role-s01"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option></select></div>
+        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#b84fff">S02</span><select id="cop-role-s02"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option></select></div>
+        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#3b8bff">S03</span><select id="cop-role-s03"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option></select></div>
+        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#ff9900">S04</span><select id="cop-role-s04"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option></select></div>
+      </div>
+
+      <div id="cop-msg" class="mb"></div>
+      <button class="bfm" style="margin-top:.8rem;background:linear-gradient(135deg,#ff3399,#6b0045);color:#fff" onclick="saveCoOwnerPanel()">💾 Save Role Changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- OWNER PANEL MODAL -->
 <div class="ovl" id="ov-own" onclick="if(event.target===this)closeOwn()">
   <div class="mdl mdl-lg">
@@ -628,10 +666,10 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:2.5rem 0 1.
 
       <div style="font-family:'Rajdhani',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:.5rem">Server Roles</div>
       <div id="op-roles-wrap">
-        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#00ffe7">S01</span><select id="op-role-s01"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option></select></div>
-        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#b84fff">S02</span><select id="op-role-s02"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option></select></div>
-        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#3b8bff">S03</span><select id="op-role-s03"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option></select></div>
-        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#ff9900">S04</span><select id="op-role-s04"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option></select></div>
+        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#00ffe7">S01</span><select id="op-role-s01"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option><option value="co_owner">Co-Owner</option><option value="technical_admin">Technical Admin</option></select></div>
+        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#b84fff">S02</span><select id="op-role-s02"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option><option value="co_owner">Co-Owner</option><option value="technical_admin">Technical Admin</option></select></div>
+        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#3b8bff">S03</span><select id="op-role-s03"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option><option value="co_owner">Co-Owner</option><option value="technical_admin">Technical Admin</option></select></div>
+        <div class="srv-role-row"><span class="srv-role-lbl" style="color:#ff9900">S04</span><select id="op-role-s04"><option value="">— None —</option><option value="citizen">Citizen</option><option value="j_admin">Junior Admin</option><option value="admin">Admin</option><option value="senior_admin">Senior Admin</option><option value="chief_admin">Rank 06</option><option value="curator">Chief Project Curator</option><option value="co_owner">Co-Owner</option><option value="technical_admin">Technical Admin</option></select></div>
       </div>
 
       <div class="tag-section">
@@ -691,7 +729,7 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:2.5rem 0 1.
     </div>
     <div class="fbt">
       <p>© 2025 <span>Empire City RP</span>. All rights reserved. Under Active Development.</p>
-      <p>Technical Administrator: <span>Shafin_Mirza</span></p>
+      <p>Technical Administrator: <span>Shafin Mirza</span></p>
     </div>
   </div>
 </footer>
@@ -721,44 +759,49 @@ const SERVERS={
   s04:{id:'s04',name:'Server 04',short:'S04',color:'#ff9900'},
 };
 const SERVER_IDS=['s01','s02','s03','s04'];
-const RLVL={citizen:0,j_admin:1,admin:2,senior_admin:3,chief_admin:4,curator:5,owner:6};
-const ROLE_LABELS={citizen:'Citizens',j_admin:'Junior Admin',admin:'Admin',senior_admin:'Senior Admin',chief_admin:'Rank 06',curator:'Chief Project Curator',owner:'Technical Admin'};
+const RLVL={citizen:0,j_admin:1,admin:2,senior_admin:3,chief_admin:4,curator:5,co_owner:6,technical_admin:7,owner:8};
+const ROLE_LABELS={citizen:'Citizens',j_admin:'Junior Admin',admin:'Admin',senior_admin:'Senior Admin',chief_admin:'Rank 06',curator:'Chief Project Curator',co_owner:'Co-Owner',technical_admin:'Technical Admin',owner:'Technical Admin'};
 function rl(r){return RLVL[r]||0;}
 function srvRoleLabel(sid,role){if(!role)return '—';return SERVERS[sid].short+' | '+(ROLE_LABELS[role]||role);}
 
 /* ── 25 PERMISSIONS ── */
 const PERMISSIONS=[
-  {key:'view_public',label:'View Community Sections',info:'All Complaints, Reviewed, Unreviewed…',dflt:['citizen','j_admin','admin','senior_admin','chief_admin','curator','owner']},
-  {key:'submit_complaint',label:'Submit Complaints',info:'File complaints against other members.',dflt:['citizen','j_admin','admin','senior_admin','chief_admin','curator','owner']},
-  {key:'submit_defense',label:'Submit Defense',info:'Respond to complaints against them.',dflt:['citizen','j_admin','admin','senior_admin','chief_admin','curator','owner']},
-  {key:'view_admin_panel',label:'View Admin Panel',info:'See pending complaints in Admin Panel.',dflt:['admin','senior_admin','chief_admin','curator','owner']},
-  {key:'review_complaints',label:'Review Complaints',info:'Mark complaints as Resolved.',dflt:['admin','senior_admin','chief_admin','curator','owner']},
-  {key:'mark_under_review',label:'Mark Under Review',info:'Send complaints to Under Investigation.',dflt:['admin','senior_admin','chief_admin','curator','owner']},
-  {key:'resolve_underreview',label:'Resolve Under Investigation',info:'Resolve Under Review complaints.',dflt:['senior_admin','chief_admin','curator','owner']},
-  {key:'rereview',label:'Re-Review Complaints',info:'Return resolved complaints to Pending. (Rank 06+ only)',dflt:['chief_admin','curator','owner']},
-  {key:'delete_complaints',label:'Delete Any Complaint',info:'Permanently delete any complaint.',dflt:['curator','owner']},
-  {key:'post_announcement',label:'Post Announcements',info:'Create new announcements.',dflt:['senior_admin','chief_admin','curator','owner']},
-  {key:'del_any_announcement',label:'Delete Any Announcement',info:'Delete any announcement.',dflt:['chief_admin','curator','owner']},
-  {key:'manage_members',label:'Manage Member Roles & Tags',info:'Promote, demote, assign tags.',dflt:['senior_admin','chief_admin','curator','owner']},
-  {key:'manage_individual_perms',label:'Manage Individual Permissions',info:'Open and save individual permission overrides for members.',dflt:['owner']},
-  {key:'manage_orgs',label:'Manage Organisations',info:'Add/remove org leaders.',dflt:['chief_admin','curator','owner']},
-  {key:'view_logs',label:'View System Logs',info:'Read all system action logs.',dflt:['senior_admin','chief_admin','curator','owner']},
-  {key:'delete_logs',label:'Delete Log Entries',info:'Permanently delete log entries.',dflt:['owner']},
-  {key:'pin_announcement',label:'Pin Announcements',info:'Pin important announcements.',dflt:['chief_admin','curator','owner']},
-  {key:'view_member_profiles',label:'View Member Profiles',info:'See full profile including email.',dflt:['admin','senior_admin','chief_admin','curator','owner']},
-  {key:'kick_member',label:'Kick Members',info:'Remove members from server temporarily.',dflt:['senior_admin','chief_admin','curator','owner']},
-  {key:'ban_member',label:'Ban / Unban Members',info:'Ban or unban members (owner, curator, chief_admin only).',dflt:['chief_admin','curator','owner']},
-  {key:'bulk_complaints',label:'Bulk Complaint Actions',info:'Perform bulk actions on complaints.',dflt:['chief_admin','curator','owner']},
-  {key:'view_statistics',label:'View Server Statistics',info:'Access server analytics.',dflt:['senior_admin','chief_admin','curator','owner']},
-  {key:'manage_server_settings',label:'Manage Server Settings',info:'Configure server-level settings.',dflt:['curator','owner']},
-  {key:'create_events',label:'Create Events',info:'Schedule server-wide events.',dflt:['admin','senior_admin','chief_admin','curator','owner']},
-  {key:'manage_channels',label:'Manage Channel Visibility',info:'Control channel visibility per role.',dflt:['chief_admin','curator','owner']},
-  {key:'broadcast_message',label:'Send Server Broadcast',info:'Send broadcast to all members.',dflt:['senior_admin','chief_admin','curator','owner']},
+  {key:'view_public',label:'View Community Sections',info:'All Complaints, Reviewed, Unreviewed…',dflt:['citizen','j_admin','admin','senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'submit_complaint',label:'Submit Complaints',info:'File complaints against other members.',dflt:['citizen','j_admin','admin','senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'submit_defense',label:'Submit Defense',info:'Respond to complaints against them.',dflt:['citizen','j_admin','admin','senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'view_admin_panel',label:'View Admin Panel',info:'See pending complaints in Admin Panel.',dflt:['admin','senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'review_complaints',label:'Review Complaints',info:'Mark complaints as Resolved.',dflt:['admin','senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'mark_under_review',label:'Mark Under Review',info:'Send complaints to Under Investigation.',dflt:['admin','senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'resolve_underreview',label:'Resolve Under Investigation',info:'Resolve Under Review complaints.',dflt:['senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'rereview',label:'Re-Review Complaints',info:'Return resolved complaints to Pending. (Rank 06+ only)',dflt:['chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'delete_complaints',label:'Delete Any Complaint',info:'Permanently delete any complaint.',dflt:['curator','co_owner','technical_admin','owner']},
+  {key:'post_announcement',label:'Post Announcements',info:'Create new announcements.',dflt:['senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'del_any_announcement',label:'Delete Any Announcement',info:'Delete any announcement.',dflt:['chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'manage_members',label:'Manage Member Roles & Tags',info:'Promote, demote, assign tags.',dflt:['senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'manage_individual_perms',label:'Manage Individual Permissions',info:'Open and save individual permission overrides for members.',dflt:['co_owner','technical_admin','owner']},
+  {key:'manage_orgs',label:'Manage Organisations',info:'Add/remove org leaders.',dflt:['chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'view_logs',label:'View System Logs',info:'Read all system action logs.',dflt:['senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'delete_logs',label:'Delete Log Entries',info:'Permanently delete log entries.',dflt:['co_owner','technical_admin','owner']},
+  {key:'pin_announcement',label:'Pin Announcements',info:'Pin important announcements.',dflt:['chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'view_member_profiles',label:'View Member Profiles',info:'See full profile including email.',dflt:['admin','senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'kick_member',label:'Kick Members',info:'Remove members from server temporarily.',dflt:['senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'ban_member',label:'Ban / Unban Members',info:'Ban or unban members (owner, co_owner, curator, chief_admin only).',dflt:['chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'bulk_complaints',label:'Bulk Complaint Actions',info:'Perform bulk actions on complaints.',dflt:['chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'view_statistics',label:'View Server Statistics',info:'Access server analytics.',dflt:['senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'manage_server_settings',label:'Manage Server Settings',info:'Configure server-level settings.',dflt:['curator','co_owner','technical_admin','owner']},
+  {key:'create_events',label:'Create Events',info:'Schedule server-wide events.',dflt:['admin','senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'manage_channels',label:'Manage Channel Visibility',info:'Control channel visibility per role.',dflt:['chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'broadcast_message',label:'Send Server Broadcast',info:'Send broadcast to all members.',dflt:['senior_admin','chief_admin','curator','co_owner','technical_admin','owner']},
+  {key:'assign_coowner_power',label:'Grant Co-Owner Power',info:'Grants this user Co-Owner level access regardless of server role. Owner-only.',dflt:['owner']},
+  {key:'view_complaint_logs',label:'View Complaint Activity Logs',info:'Access the complaint activity log showing all complaint-related actions with full detail.',dflt:['co_owner','technical_admin','owner']},
+  {key:'view_emails',label:'View Member Email Addresses',info:'See member email addresses in member lists and profiles. Co-Owners cannot view emails by default.',dflt:['technical_admin','owner']},
+  {key:'manage_all_servers',label:'Manage Members in Any Server',info:'Assign roles and manage members across all servers regardless of personal server role assignment.',dflt:['co_owner','technical_admin','owner']},
+  {key:'force_resolve',label:'Force Resolve Any Complaint',info:'Immediately resolve or reject any complaint regardless of current status, bypassing standard review flow.',dflt:['co_owner','technical_admin','owner']},
 ];
 
 /* ── STATE ── */
-let CU=null,CP=null,opSelUid=null,permTargetUid=null,permSid=null;
-let chatListeners={},srvLogs={},localPermOvr={};
+let CU=null,CP=null,opSelUid=null,opSelName='',permTargetUid=null,permSid=null,permTargetName='';
+let chatListeners={},srvLogs={},localPermOvr={},copSelName='';
 const SRV_TAB={s01:'ov',s02:'ov',s03:'ov',s04:'ov'};
 const SRV_COLL={s01:false,s02:false,s03:false,s04:false};
 
@@ -783,11 +826,13 @@ function canIn(sid,key){
   if(isGO())return true;
   const role=getRoleInSrv(sid);if(!role)return false;
   const ct=CP.customTag||{};
-  if(ct.perms&&ct.perms.hasOwnProperty(key))return ct.perms[key];
   const pOvr=((CP._permCache||{})[sid]||{});
+  const hasCoOwnerGrant=(ct.perms&&ct.perms['assign_coowner_power']===true)||(pOvr['assign_coowner_power']===true);
+  const effRole=(hasCoOwnerGrant&&rl(role)<rl('co_owner'))?'co_owner':role;
+  if(ct.perms&&ct.perms.hasOwnProperty(key))return ct.perms[key];
   if(pOvr.hasOwnProperty(key))return pOvr[key];
   const p=PERMISSIONS.find(p=>p.key===key);
-  return p?p.dflt.includes(role):false;
+  return p?p.dflt.includes(effRole):false;
 }
 
 /* ── BAN SCREEN ── */
@@ -807,7 +852,7 @@ function togM(){g('mnv').classList.toggle('op');}function closM(){g('mnv').class
 function openM(){g('ov').classList.add('op');document.body.style.overflow='hidden';}
 function closeM(){g('ov').classList.remove('op');document.body.style.overflow='';clearF();}
 function ovCk(e){if(e.target===g('ov'))closeM();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();closePerm();closeOwn();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();closePerm();closeOwn();closeCoOwn();}});
 function aTab(t){const li=t==='li';g('tli').classList.toggle('ac',li);g('tsu').classList.toggle('ac',!li);g('f-li').classList.toggle('hidden',!li);g('f-su').classList.toggle('hidden',li);clearF();}
 function clearF(){['li-msg','su-msg','perm-msg','op-msg','op-stats-msg'].forEach(id=>{const e=g(id);if(e){e.className='mb';e.style.display='none';}});document.querySelectorAll('.fe').forEach(e=>e.classList.remove('sh'));}
 
@@ -967,7 +1012,7 @@ function buildDashboard(){
 }
 
 function buildSidebar(sid,role){
-  const own=isGO(), adm=rl(role)>=rl('admin'), sen=rl(role)>=rl('senior_admin'), chi=rl(role)>=rl('chief_admin');
+  const own=isGO(), adm=rl(role)>=rl('admin'), sen=rl(role)>=rl('senior_admin'), chi=rl(role)>=rl('chief_admin'), coown=rl(role)>=rl('co_owner')&&!isGO();
   const s=SERVERS[sid];
   let h=`
   <div class="dpr">
@@ -1007,8 +1052,15 @@ function buildSidebar(sid,role){
     h+=`<li class="cat-lbl">💎 Rank 06</li>
     <li><button onclick="srvTab('${sid}','org')" id="nb-${sid}-org"><span class="di">🏢</span>Organisations</button></li>`;
   }
+  if(canIn(sid,'view_complaint_logs')){
+    h+=`<li><button onclick="srvTab('${sid}','clog')" id="nb-${sid}-clog"><span class="di">📊</span>Complaint Activity</button></li>`;
+  }
+  if(coown){
+    h+=`<li class="cat-lbl" style="color:#ff3399">👑 Co-Owner</li>
+    <li><button onclick="openCoOwn()" id="nb-${sid}-coown" style="color:#ff3399"><span class="di">👑</span>Co-Owner Panel</button></li>`;
+  }
   if(own){
-    h+=`<li class="cat-lbl">🖥️ Technical Admin</li>
+    h+=`<li class="cat-lbl" style="color:#78909c">🔧 Owner Tools</li>
     <li><button onclick="openOwn()" id="nb-${sid}-own"><span class="di">🖥️</span>Owner Panel</button></li>`;
   }
   h+=`<li><button onclick="doOut()" style="color:var(--r)"><span class="di">🚪</span>Logout</button></li></ul>`;
@@ -1054,6 +1106,7 @@ async function renderContent(sid,name,co){
     case 'cht': co.innerHTML=buildChtHtml(sid);initChat(sid);break;
     case 'cit': co.innerHTML=ph('👥 All Citizens',sid,'cit');await ldCit(sid);break;
     case 'log': co.innerHTML=buildLogHtml(sid);await ldLog(sid);break;
+    case 'clog': co.innerHTML=buildComplaintLogHtml(sid);if(canIn(sid,'view_complaint_logs'))await ldComplaintLog(sid);break;
     case 'mem': co.innerHTML=buildMemHtml(sid);break;
     case 'org': co.innerHTML=buildOrgHtml(sid);await ldOrg(sid);break;
   }
@@ -1146,7 +1199,7 @@ function buildChtHtml(sid){
 }
 
 function buildLogHtml(sid){
-  const delBtn=isGO()?`<button class="bref" style="color:var(--r);border-color:rgba(255,51,85,.35)" onclick="delAllLogs('${sid}')">🗑️ All</button>`:'';
+  const delBtn=(isGO()||canIn(sid,'delete_logs'))?`<button class="bref" style="color:var(--r);border-color:rgba(255,51,85,.35)" onclick="delAllLogs('${sid}')">🗑️ All</button>`:'';
   return `<div class="dpn2">
     <div class="dph"><h3>📓 System Logs — ${SERVERS[sid].name}</h3><div style="display:flex;gap:.35rem">${delBtn}<button class="bref" onclick="ldLog('${sid}',true)">🔄</button></div></div>
     <div class="logfilter">
@@ -1345,7 +1398,7 @@ async function ldAli(sid){
     const sn=await DB.ref('users').once('value');const admins=[];
     if(sn.exists())sn.forEach(c=>{const u=c.val();if(u&&u.serverRoles&&u.serverRoles[sid]&&isAdmRole(u.serverRoles[sid]))admins.push({...u,_r:u.serverRoles[sid]});});
     admins.sort((a,b)=>rl(b._r)-rl(a._r));
-    const showEm=canIn(sid,'view_member_profiles');
+    const showEm=canIn(sid,'view_member_profiles')&&(isGO()||canIn(sid,'view_emails'));
     wr.innerHTML=admins.length?`<div style="padding:.3rem"><table class="tbl"><thead><tr><th>Name</th><th>Role</th><th>Joined</th>${showEm?'<th>Email</th>':''}</tr></thead><tbody>${admins.map(u=>`<tr><td><strong>${esc(u.ingameName)}</strong>${u.customTag&&u.customTag.name?` <span class="sectag rc-custom">🏷️${esc(u.customTag.name)}</span>`:''}</td><td><span class="sectag ${rtag(u._r)}">${srvRoleLabel(sid,u._r)}</span></td><td>${fmtD(u.createdAt)}</td>${showEm?`<td style="font-size:.67rem;color:var(--tx2)">${esc(u.email||'—')}</td>`:''}</tr>`).join('')}</tbody></table></div>`:empH('📜','No admin staff yet.');
   }catch(e){wr.innerHTML=errH(e.message);}
 }
@@ -1357,7 +1410,7 @@ async function ldCit(sid){
     const sn=await DB.ref('users').once('value');const users=[];
     if(sn.exists())sn.forEach(c=>{const u=c.val();if(u&&u.serverRoles&&u.serverRoles[sid])users.push({...u,_r:u.serverRoles[sid]});});
     users.sort((a,b)=>(a.ingameName||'').localeCompare(b.ingameName||''));
-    const showEm=canIn(sid,'view_member_profiles');
+    const showEm=canIn(sid,'view_member_profiles')&&(isGO()||canIn(sid,'view_emails'));
     wr.innerHTML=users.length?`<div style="padding:.3rem"><table class="tbl"><thead><tr><th>Name</th><th>Role</th><th>Joined</th>${showEm?'<th>Email</th>':''}</tr></thead><tbody>${users.map(u=>`<tr><td>
       <strong>${esc(u.ingameName)}</strong>
       ${u.customTag&&u.customTag.name?` <span class="sectag rc-custom">🏷️${esc(u.customTag.name)}</span>`:''}
@@ -1393,13 +1446,23 @@ function fltLog(sid){
     return true;
   });
   const wr=g('w-'+sid+'-log');if(!wr)return;
-  wr.innerHTML=filtered.length?filtered.map(l=>`
-    <div class="logrow">
+  wr.innerHTML=filtered.length?filtered.map(l=>{
+    const targetBadge=l.targetRole?`<span class="sectag ${rtag(l.targetRole)}" style="font-size:.5rem;padding:.06rem .26rem;vertical-align:middle;margin-left:.2rem">${ROLE_LABELS[l.targetRole]||l.targetRole}</span>`:'';
+    const actor=esc(l.actor||l.by||'—');
+    const target=l.target?esc(l.target):'';
+    const summary=target
+      ? `<strong style="color:var(--tx)">${actor}</strong><span style="color:var(--dm);margin:0 .28rem">→</span><strong style="color:var(--nw)">${target}</strong>${targetBadge}`
+      : `<strong style="color:var(--tx)">${actor}</strong>`;
+    return`<div class="logrow">
       <div class="logi ${esc(l.color||'lc-sys')}"></div>
-      <div class="logbody"><div class="logact" style="color:var(--ne)">${esc(l.actionLabel||l.action)}</div><div class="logdet">${esc(l.detail)}</div></div>
-      <span class="logtm">${fmtD(l.timestamp)}</span>
-      ${isGO()?`<button class="logdel" onclick="delLog('${sid}','${esc(l.key)}')">✕</button>`:''}
-    </div>`).join(''):empH('📓','No log entries found.');
+      <div class="logbody">
+        <div class="logact" style="color:var(--ne)">${esc(l.actionLabel||l.action)}</div>
+        <div style="font-size:.65rem;color:var(--tx2);margin-top:.18rem;line-height:1.6">${summary}</div>
+        ${l.detail?`<div style="font-size:.58rem;color:var(--dm);margin-top:.1rem">${esc(l.detail)}</div>`:''}
+      </div>
+      <span class="logtm" title="${esc(fmtDT(l.timestamp))}">${fmtD(l.timestamp)}<br/><span style="font-size:.54rem;color:var(--dm)">${new Date(l.timestamp).toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</span></span>
+      ${(isGO()||canIn(sid,'delete_logs'))?`<button class="logdel" onclick="delLog('${sid}','${esc(l.key)}')">✕</button>`:''}
+    </div>`;}).join(''):empH('📓','No log entries found.');
 }
 
 /* ── MEMBERS MANAGEMENT — with Ban/Unban ── */
@@ -1412,7 +1475,8 @@ async function ldMem(sid){
     if(sn.exists())sn.forEach(c=>{const u=c.val();if(u&&u.serverRoles&&u.serverRoles[sid]&&(u.ingameName||'').toLowerCase().includes(q))matches.push({...u,_r:u.serverRoles[sid]});});
     wr.innerHTML=matches.length?matches.slice(0,20).map(u=>{
       const myLvl=rlvlInSrv(sid);const uLvl=rl(u._r);const canMod=(myLvl>uLvl)||isGO();
-      const roles=['citizen','j_admin','admin','senior_admin','chief_admin','curator'];
+      const allRoles=['citizen','j_admin','admin','senior_admin','chief_admin','curator','co_owner','technical_admin'];
+      const roles=allRoles.filter(r=>isGO()||rl(r)<myLvl);
       const roleSelect=canMod?`<select class="bact" style="cursor:pointer;font-size:.6rem;font-family:'Rajdhani',sans-serif" onchange="changeRole('${esc(u.uid)}','${sid}',this.value)">
         ${roles.map(r=>`<option value="${r}"${u._r===r?' selected':''}>${srvRoleLabel(sid,r)}</option>`).join('')}
       </select>`:'<span style="font-size:.6rem;color:var(--dm)">Cannot modify</span>';
@@ -1482,7 +1546,8 @@ async function submitComplaint(sid){
     await DB.ref('servers/'+sid+'/reports/'+key).set(rpt);
     await DB.ref('srvReports/'+sid+'/'+CU.uid+'/'+key).set(true);
     await DB.ref('srvAccused/'+sid+'/'+accUid+'/'+key).set(true);
-    await wLog(sid,'Complaint Submitted',`${CP.ingameName} filed complaint against ${acc}`,'lc-sub');
+    await wLog(sid,'Complaint Filed',`#${key.slice(-8).toUpperCase()} · ${type}`,'lc-sub',acc,'');
+    await wCLog(sid,'Complaint Filed',acc,key,'lc-sub');
     clrSrv(sid);
     mb('cf-msg-'+sid,'ok','✅ Complaint submitted successfully!');
     toast('Complaint submitted!','ok');
@@ -1495,25 +1560,35 @@ async function submitComplaint(sid){
 /* ── COMPLAINT REVIEW ACTIONS ── */
 async function reviewCpt(sid,key,status){
   const inp=g('rv-'+key);const note=inp?inp.value.trim():'';
-  if(!canIn(sid,'review_complaints')&&!canIn(sid,'mark_under_review')){toast('No permission.','er');return;}
+  const hasPerm=canIn(sid,'review_complaints')||canIn(sid,'mark_under_review')||canIn(sid,'force_resolve');
+  if(!hasPerm){toast('No permission.','er');return;}
+  const sn=await DB.ref('servers/'+sid+'/reports/'+key+'/accused').once('value');
+  const accused=sn.val()||'Unknown';
   await DB.ref('servers/'+sid+'/reports/'+key).update({status,review:note,reviewBy:CP.ingameName,reviewedAt:Date.now()});
-  await wLog(sid,'Status Changed',`${CP.ingameName} set complaint to "${status}"`,'lc-status');
+  await wLog(sid,'Complaint Status Changed',`→ "${status}" · #${key.slice(-8).toUpperCase()}${note?' · '+note:''}`,'lc-status',accused,'');
+  await wCLog(sid,`Set to "${status}"`,accused,key,'lc-status');
   clrSrv(sid);toast('Status: '+status,'ok');
   srvTab(sid,SRV_TAB[sid]);
 }
 
 async function reReview(sid,key){
   if(!canIn(sid,'rereview')){toast('No permission.','er');return;}
+  const sn=await DB.ref('servers/'+sid+'/reports/'+key+'/accused').once('value');
+  const accused=sn.val()||'Unknown';
   await DB.ref('servers/'+sid+'/reports/'+key).update({status:'Pending',review:'',reviewBy:'',reviewedAt:null});
-  await wLog(sid,'Status Changed',`${CP.ingameName} re-reviewed complaint`,'lc-status');
+  await wLog(sid,'Re-Review Opened',`#${key.slice(-8).toUpperCase()} returned to Pending`,'lc-status',accused,'');
+  await wCLog(sid,'Returned to Pending',accused,key,'lc-status');
   clrSrv(sid);toast('Returned to Pending.','ok');srvTab(sid,SRV_TAB[sid]);
 }
 
 async function delCpt(sid,key){
   if(!canIn(sid,'delete_complaints')){toast('No permission.','er');return;}
   if(!confirm('Delete this complaint permanently?'))return;
+  const sn=await DB.ref('servers/'+sid+'/reports/'+key+'/accused').once('value');
+  const accused=sn.val()||'Unknown';
   await DB.ref('servers/'+sid+'/reports/'+key).remove();
-  await wLog(sid,'Complaint Deleted',`${CP.ingameName} deleted a complaint`,'lc-del');
+  await wLog(sid,'Complaint Deleted',`#${key.slice(-8).toUpperCase()} permanently removed`,'lc-del',accused,'');
+  await wCLog(sid,'Complaint Deleted',accused,key,'lc-del');
   clrSrv(sid);toast('Deleted.','ok');srvTab(sid,SRV_TAB[sid]);
 }
 
@@ -1559,6 +1634,8 @@ function crdH(r,sid){
       ${canRv&&r.status==='Pending'?`<button class="bsm brj" onclick="reviewCpt('${sid}','${r.key}','Rejected')">❌ Reject</button>`:''}
       ${canIn(sid,'resolve_underreview')&&r.status==='Under Review'?`<button class="bsm brs" onclick="reviewCpt('${sid}','${r.key}','Resolved')">✅ Resolve Invest.</button>`:''}
       ${canRR&&(r.status==='Resolved'||r.status==='Rejected')?`<button class="bsm brre" onclick="reReview('${sid}','${r.key}')">🔄 Re-Review</button>`:''}
+      ${canIn(sid,'force_resolve')&&r.status!=='Resolved'?`<button class="bsm brs" style="background:rgba(255,51,153,.15);border-color:rgba(255,51,153,.4);color:#ff3399" onclick="reviewCpt('${sid}','${r.key}','Resolved')">⚡ Force Resolve</button>`:''}
+      ${canIn(sid,'force_resolve')&&r.status!=='Rejected'?`<button class="bsm brj" style="background:rgba(255,51,153,.1);border-color:rgba(255,51,153,.3);color:#ff3399" onclick="reviewCpt('${sid}','${r.key}','Rejected')">⚡ Force Reject</button>`:''}
       ${canDel?`<button class="bsm brj" onclick="delCpt('${sid}','${r.key}')">🗑️ Delete</button>`:''}
     </div>`:''}
   </div>`;
@@ -1582,7 +1659,7 @@ async function postAnn(sid){
   if(!canIn(sid,'post_announcement')){toast('No permission.','er');return;}
   const key=DB.ref('servers/'+sid+'/announcements').push().key;
   await DB.ref('servers/'+sid+'/announcements/'+key).set({key,title:t,message:m,by:CP.ingameName,byUid:CU.uid,timestamp:Date.now()});
-  await wLog(sid,'Announcement Posted',`${CP.ingameName} posted: ${t}`,'lc-ann');
+  await wLog(sid,'Announcement Posted',t,'lc-ann','','');
   mb('ann-msg-'+sid,'ok','✅ Announcement posted!');toast('Posted!','ok');
   const ti=g('ann-t-'+sid),mi=g('ann-m-'+sid);if(ti)ti.value='';if(mi)mi.value='';
   await ldAnn(sid);
@@ -1592,7 +1669,7 @@ async function delAnn(sid,key){
   if(!canIn(sid,'del_any_announcement')){toast('No permission.','er');return;}
   if(!confirm('Delete this announcement?'))return;
   await DB.ref('servers/'+sid+'/announcements/'+key).remove();
-  await wLog(sid,'Announcement Deleted',`${CP.ingameName} deleted an announcement`,'lc-ann');
+  await wLog(sid,'Announcement Deleted','','lc-ann','','');
   toast('Deleted.','ok');await ldAnn(sid);
 }
 
@@ -1646,7 +1723,7 @@ async function addOrg(sid,type){
   if(!canIn(sid,'manage_orgs')){toast('No permission.','er');return;}
   const key=DB.ref('servers/'+sid+'/organizations/'+type).push().key;
   await DB.ref('servers/'+sid+'/organizations/'+type+'/'+key).set({name:nm,position:ps,addedBy:CP.ingameName,timestamp:Date.now()});
-  await wLog(sid,'Organisation Added',`${CP.ingameName} added ${nm} to ${type}`,'lc-org');
+  await wLog(sid,'Organisation Added',`Type: ${type}`,'lc-org',nm,'');
   if(nmEl)nmEl.value='';if(psEl)psEl.value='';
   toast(nm+' added.','ok');await ldOrg(sid,true);
 }
@@ -1654,8 +1731,9 @@ async function addOrg(sid,type){
 async function delOrg(sid,type,key){
   if(!canIn(sid,'manage_orgs')){toast('No permission.','er');return;}
   if(!confirm('Remove this entry?'))return;
+  const doSn=await DB.ref('servers/'+sid+'/organizations/'+type+'/'+key+'/name').once('value');const doNm=doSn.val()||'';
   await DB.ref('servers/'+sid+'/organizations/'+type+'/'+key).remove();
-  await wLog(sid,'Organisation Removed',`${CP.ingameName} removed from ${type}`,'lc-org');
+  await wLog(sid,'Organisation Removed',`Type: ${type}`,'lc-org',doNm,'');
   toast('Removed.','ok');await ldOrg(sid,true);
 }
 
@@ -1664,18 +1742,22 @@ async function changeRole(uid,sid,newRole){
   if(!canIn(sid,'manage_members')){toast('No permission.','er');return;}
   const myLvl=rlvlInSrv(sid);
   if(rl(newRole)>=myLvl&&!isGO()){toast('Cannot assign role ≥ your own.','er');return;}
+  const tSn=await DB.ref('users/'+uid).once('value');const tu=tSn.val()||{};
+  const oldRole=tu.serverRoles?tu.serverRoles[sid]||'':'';
   await DB.ref('users/'+uid+'/serverRoles/'+sid).set(newRole);
   const sn=await DB.ref('users/'+uid+'/serverRoles').once('value');
   if(sn.exists()){const vals=Object.values(sn.val()||{});const mx=vals.reduce((m,r)=>rl(r)>rl(m)?r:m,'citizen');await DB.ref('users/'+uid+'/role').set(mx);}
-  await wLog(sid,'Role Changed',`${CP.ingameName} set user to ${srvRoleLabel(sid,newRole)}`,'lc-role');
+  await wLog(sid,'Role Changed',`${srvRoleLabel(sid,oldRole)||'None'} → ${srvRoleLabel(sid,newRole)} on ${SERVERS[sid].name}`,'lc-role',tu.ingameName||uid,newRole);
   toast('Role updated.','ok');ldMem(sid);
 }
 
 async function kickMember(uid,name,sid){
   if(!canIn(sid,'kick_member')){toast('No permission.','er');return;}
   if(!confirm('Kick '+name+' from '+SERVERS[sid].name+'?'))return;
+  const tSn=await DB.ref('users/'+uid+'/serverRoles/'+sid).once('value');
+  const oldRole=tSn.val()||'';
   await DB.ref('users/'+uid+'/serverRoles/'+sid).remove();
-  await wLog(sid,'Member Kicked',`${CP.ingameName} kicked ${name}`,'lc-del');
+  await wLog(sid,'Member Kicked',`Removed from ${SERVERS[sid].name}`,'lc-del',name,oldRole);
   toast(name+' kicked.','ok');ldMem(sid);
 }
 
@@ -1689,8 +1771,9 @@ async function banMember(uid,name,sid){
   await DB.ref('users/'+uid+'/banReason').set(reason.trim());
   await DB.ref('users/'+uid+'/bannedBy').set(CP.ingameName);
   await DB.ref('users/'+uid+'/bannedAt').set(Date.now());
+  const brSn=await DB.ref('users/'+uid+'/serverRoles/'+sid).once('value');const banOldRole=brSn.val()||'';
   await DB.ref('servers/'+sid+'/bans/'+uid).set({name,bannedBy:CP.ingameName,reason:reason.trim(),at:Date.now()});
-  await wLog(sid,'Member Banned',`${CP.ingameName} banned ${name} — Reason: ${reason.trim()}`,'lc-del');
+  await wLog(sid,'Member Banned',`Reason: ${reason.trim()}`,'lc-del',name,banOldRole);
   toast(name+' banned. They cannot log in until unbanned.','ok');
   ldMem(sid);
 }
@@ -1704,14 +1787,14 @@ async function unbanMember(uid,name,sid){
   await DB.ref('users/'+uid+'/bannedBy').remove();
   await DB.ref('users/'+uid+'/bannedAt').remove();
   await DB.ref('servers/'+sid+'/bans/'+uid).remove();
-  await wLog(sid,'Member Unbanned',`${CP.ingameName} unbanned ${name}`,'lc-role');
+  await wLog(sid,'Member Unbanned','Access restored — ban lifted','lc-role',name,'');
   toast(name+' unbanned. They can now log in.','ok');
   ldMem(sid);
 }
 
 /* ── LOG ACTIONS ── */
 async function delAllLogs(sid){
-  if(!isGO())return;
+  if(!isGO()&&!canIn(sid,'delete_logs'))return;
   if(!confirm('Delete ALL logs for '+SERVERS[sid].name+'?'))return;
   await DB.ref('servers/'+sid+'/logs').remove();
   srvLogs[sid]=[];delete DCACHE[sid+'_logs'];fltLog(sid);
@@ -1719,7 +1802,7 @@ async function delAllLogs(sid){
 }
 
 async function delLog(sid,key){
-  if(!isGO())return;
+  if(!isGO()&&!canIn(sid,'delete_logs'))return;
   await DB.ref('servers/'+sid+'/logs/'+key).remove();
   srvLogs[sid]=(srvLogs[sid]||[]).filter(l=>l.key!==key);
   sc(sid+'_logs',srvLogs[sid]);fltLog(sid);
@@ -1729,14 +1812,15 @@ async function delLog(sid,key){
 /* ── PERMISSIONS MODAL ── */
 function openPermModal(uid,sid){
   if(!isGO()&&!canIn(sid,'manage_individual_perms')){toast('No permission to manage individual permissions.','er');return;}
-  permTargetUid=uid;permSid=sid;
+  permTargetUid=uid;permSid=sid;permTargetName='';
   DB.ref('users/'+uid).once('value').then(sn=>{
     const u=sn.val()||{};
+    permTargetName=u.ingameName||uid;
     g('perm-target-name').textContent=(u.ingameName||uid)+' — '+SERVERS[sid].name;
     DB.ref('userPerms/'+uid+'/'+sid).once('value').then(psn=>{
       const ovr=psn.exists()?psn.val():{};
       localPermOvr={};
-      g('perm-grid-wrap').innerHTML='<div class="perm-grid">'+PERMISSIONS.map(p=>{
+      g('perm-grid-wrap').innerHTML='<div class="perm-grid">'+PERMISSIONS.filter(p=>p.key!=='assign_coowner_power'||isGO()).map(p=>{
         let state='default';
         if(ovr.hasOwnProperty(p.key))state=ovr[p.key]?'on':'off';
         return `<div class="perm-row" id="pr-${p.key}">
@@ -1769,7 +1853,7 @@ async function savePermissions(){
   const updates={};
   PERMISSIONS.forEach(p=>{if(localPermOvr.hasOwnProperty(p.key)&&localPermOvr[p.key]!=='def')updates[p.key]=localPermOvr[p.key];});
   await DB.ref('userPerms/'+permTargetUid+'/'+permSid).set(updates);
-  await wLog(permSid,'Permissions Changed',`${CP.ingameName} updated permissions for a member`,'lc-perm');
+  await wLog(permSid,'Permissions Changed',`Individual permission overrides updated`,'lc-perm',permTargetName||permTargetUid,'');
   mb('perm-msg','ok','✅ Permissions saved.');toast('Saved.','ok');
   setTimeout(closePerm,1500);
 }
@@ -1781,7 +1865,7 @@ function openOwn(){
   const rr=g('op-results');if(rr){rr.innerHTML='';rr.style.display='none';}
   g('op-user-info').classList.add('hidden');
   const tpg=g('tag-perm-grid');
-  if(tpg)tpg.innerHTML=PERMISSIONS.map(p=>`
+  if(tpg)tpg.innerHTML=PERMISSIONS.filter(p=>p.key!=='assign_coowner_power').map(p=>`
     <label style="display:flex;align-items:center;gap:.3rem;font-size:.66rem;color:var(--tx2);cursor:pointer">
       <input type="checkbox" id="tp-${p.key}" style="accent-color:var(--g)"/> ${p.label}
     </label>`).join('');
@@ -1810,9 +1894,10 @@ async function opSearch(){
 }
 
 async function opSel(uid){
-  opSelUid=uid;
+  opSelUid=uid;opSelName='';
   const sn=await DB.ref('users/'+uid).once('value');
   const u=sn.val()||{};
+  opSelName=u.ingameName||uid;
   g('op-uname').textContent=(u.ingameName||uid)+(u.banned?' 🚫':'');
   g('op-uemail').textContent=u.email||'—';
   const av=g('op-av');if(av){av.textContent=(u.ingameName||'?')[0].toUpperCase();av.style.background=roleGrad((u.role||'citizen'));}
@@ -1837,7 +1922,7 @@ async function saveOwnerPanel(){
   PERMISSIONS.forEach(p=>{const cb=g('tp-'+p.key);if(cb&&cb.checked)tagPerms[p.key]=true;});
   const maxRole=Object.values(newSR).reduce((mx,r)=>rl(r)>rl(mx)?r:mx,'citizen');
   await DB.ref('users/'+opSelUid).update({serverRoles:newSR,role:maxRole,primaryServer:Object.keys(newSR)[0]||'s01',customTag:{name:tagName,perms:tagPerms}});
-  await wLog('s01','Role Changed',`${CP.ingameName} updated roles & tag for a member`,'lc-role');
+  await wLog('s01','Roles & Tag Updated',`Custom tag: ${tagName||'—'}`,'lc-role',opSelName||opSelUid,maxRole);
   mb('op-msg','ok','✅ Saved successfully!');toast('User updated.','ok');
 }
 
@@ -1861,7 +1946,7 @@ async function delSelUser(){
     await DB.ref('userPerms/'+opSelUid).remove();
     // Remove main user record
     await DB.ref('users/'+opSelUid).remove();
-    await wLog('s01','User Deleted',`${CP.ingameName} permanently deleted account of ${u.ingameName||opSelUid}`,'lc-del');
+    await wLog('s01','Account Deleted',`Permanently removed from all databases`,'lc-del',u.ingameName||opSelUid,'');
     toast('Account fully deleted from all databases. Firebase Auth removed on next login attempt.','ok');
     closeOwn();
   }catch(e){toast('Error during deletion: '+e.message,'er');}
@@ -1894,11 +1979,129 @@ function loadServerAnnouncement(){
   });
 }
 
-/* ── WRITE LOG ── */
-async function wLog(sid,actionLabel,detail,color){
+/* ── COMPLAINT ACTIVITY LOGS ── */
+let srvCLogs={};
+
+async function wCLog(sid,action,against,complaintId,color){
   if(!CU)return;
+  const key=DB.ref('servers/'+sid+'/complaintActivity').push().key;
+  await DB.ref('servers/'+sid+'/complaintActivity/'+key).set({key,action,by:CP.ingameName,byUid:CU.uid,against:against||'',complaintId:complaintId||'',color:color||'lc-sys',timestamp:Date.now()});
+}
+
+function buildComplaintLogHtml(sid){
+  if(!canIn(sid,'view_complaint_logs'))return`<div class="dpn2"><div class="dph"><h3>📊 Complaint Activity — ${SERVERS[sid].name}</h3></div><div class="dpb">${empH('🔒','You do not have permission to view complaint activity logs.')}</div></div>`;
+  return`<div class="dpn2">
+    <div class="dph"><h3>📊 Complaint Activity — ${SERVERS[sid].name}</h3><button class="bref" onclick="ldComplaintLog('${sid}',true)">🔄</button></div>
+    <div class="logfilter">
+      <input type="text" id="clf-nm-${sid}" placeholder="Filter by name, action, or accused…" oninput="fltCLog('${sid}')"/>
+      <input type="date" id="clf-dt-${sid}" onchange="fltCLog('${sid}')"/>
+    </div>
+    <div id="w-${sid}-clog"><div class="lding"><span class="spn"></span></div></div>
+  </div>`;
+}
+
+async function ldComplaintLog(sid,force){
+  const wr=g('w-'+sid+'-clog');if(!wr)return;
+  if(!canIn(sid,'view_complaint_logs')){wr.innerHTML=empH('🔒','No access.');return;}
+  if(force)delete DCACHE[sid+'_clogs'];
+  const cached=gc(sid+'_clogs');
+  if(cached){srvCLogs[sid]=cached;fltCLog(sid);return;}
+  try{
+    const sn=await DB.ref('servers/'+sid+'/complaintActivity').once('value');
+    srvCLogs[sid]=[];if(sn.exists())sn.forEach(c=>{const v=c.val();if(v)srvCLogs[sid].push({...v,key:c.key});});
+    srvCLogs[sid].sort((a,b)=>b.timestamp-a.timestamp);
+    sc(sid+'_clogs',srvCLogs[sid]);fltCLog(sid);
+  }catch(e){wr.innerHTML=errH(e.message);}
+}
+
+function fltCLog(sid){
+  const nm=(v('clf-nm-'+sid)||'').toLowerCase();
+  const dt=v('clf-dt-'+sid)||'';
+  const filtered=(srvCLogs[sid]||[]).filter(l=>{
+    if(nm&&!((l.by||'').toLowerCase().includes(nm)||(l.action||'').toLowerCase().includes(nm)||(l.against||'').toLowerCase().includes(nm)))return false;
+    if(dt){const ds=new Date(l.timestamp).toISOString().slice(0,10);if(ds!==dt)return false;}
+    return true;
+  });
+  const wr=g('w-'+sid+'-clog');if(!wr)return;
+  wr.innerHTML=filtered.length?filtered.map(l=>`
+    <div class="logrow">
+      <div class="logi ${esc(l.color||'lc-sys')}"></div>
+      <div class="logbody">
+        <div class="logact" style="color:var(--ne)">${esc(l.action)}</div>
+        ${l.against?`<div class="logdet">Against: <strong style="color:var(--tx)">${esc(l.against)}</strong>${l.complaintId?' &nbsp;·&nbsp; #'+esc(l.complaintId.slice(-8).toUpperCase()):''}</div>`:''}
+        <div style="font-size:.58rem;color:var(--dm);margin-top:.1rem">By: <strong style="color:var(--tx2)">${esc(l.by)}</strong></div>
+      </div>
+      <span class="logtm">${fmtD(l.timestamp)}<br/><span style="font-size:.54rem;color:var(--dm)">${new Date(l.timestamp).toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</span></span>
+    </div>`).join(''):empH('📊','No complaint activity found for this period.');
+}
+
+/* ── CO-OWNER PANEL ── */
+let copSelUid=null;
+
+function openCoOwn(){
+  copSelUid=null;
+  const si=g('cop-search');if(si)si.value='';
+  const rr=g('cop-results');if(rr){rr.innerHTML='';rr.style.display='none';}
+  g('cop-user-info').classList.add('hidden');
+  g('ov-coown').classList.add('op');document.body.style.overflow='hidden';
+}
+function closeCoOwn(){g('ov-coown').classList.remove('op');document.body.style.overflow='';}
+
+async function copSearch(){
+  const q=(v('cop-search')||'').toLowerCase();
+  const rr=g('cop-results');
+  if(!q){rr.innerHTML='';rr.style.display='none';g('cop-user-info').classList.add('hidden');return;}
+  rr.style.display='block';
+  const sn=await DB.ref('users').once('value');const matches=[];
+  if(sn.exists())sn.forEach(c=>{const u=c.val();if(u&&(u.ingameName||'').toLowerCase().includes(q)&&u.role!=='owner'&&u.role!=='co_owner'&&u.role!=='technical_admin')matches.push(u);});
+  rr.innerHTML=matches.length?matches.slice(0,10).map(u=>`
+    <div onclick="copSel('${esc(u.uid)}')" style="cursor:pointer;padding:.38rem .65rem;border-bottom:1px solid var(--bdr2);font-size:.78rem;color:var(--tx2);transition:background .15s" onmouseover="this.style.background='rgba(240,192,64,.05)'" onmouseout="this.style.background=''">
+      <strong style="color:var(--tx)">${esc(u.ingameName)}</strong>
+      ${u.banned?`<span style="color:var(--r);font-size:.62rem"> 🚫 BANNED</span>`:''}
+      <span style="font-size:.62rem;color:var(--dm)">${esc(u.email||'')}</span>
+    </div>`).join(''):'<div style="padding:.6rem 1rem;font-size:.72rem;color:var(--dm)">No users found.</div>';
+}
+
+async function copSel(uid){
+  copSelUid=uid;copSelName='';
+  const sn=await DB.ref('users/'+uid).once('value');
+  const u=sn.val()||{};
+  copSelName=u.ingameName||uid;
+  g('cop-uname').textContent=(u.ingameName||uid);
+  g('cop-uemail').textContent=u.email||'—';
+  const av=g('cop-av');if(av){av.textContent=(u.ingameName||'?')[0].toUpperCase();av.style.background=roleGrad(u.role||'citizen');av.style.borderColor='#ff3399';}
+  const sr=u.serverRoles||{};
+  SERVER_IDS.forEach(sid=>{const sel=g('cop-role-'+sid);if(sel)sel.value=sr[sid]||'';});
+  g('cop-user-info').classList.remove('hidden');
+  const rr=g('cop-results');if(rr)rr.style.display='none';
+  const si=g('cop-search');if(si)si.value=u.ingameName||'';
+  mb('cop-msg','','');
+}
+
+async function saveCoOwnerPanel(){
+  if(!copSelUid){mb('cop-msg','er','No user selected.');return;}
+  const newSR={};
+  SERVER_IDS.forEach(sid=>{const val=v('cop-role-'+sid);if(val)newSR[sid]=val;});
+  for(const r of Object.values(newSR)){
+    if(rl(r)>=rl('co_owner')){mb('cop-msg','er','You cannot assign Co-Owner or higher roles.');return;}
+  }
+  const maxRole=Object.values(newSR).reduce((mx,r)=>rl(r)>rl(mx)?r:mx,'citizen');
+  await DB.ref('users/'+copSelUid).update({serverRoles:newSR,role:maxRole,primaryServer:Object.keys(newSR)[0]||'s01'});
+  await wLog('s01','Roles Updated',`Via Co-Owner Panel`,'lc-role',copSelName||copSelUid,maxRole);
+  mb('cop-msg','ok','✅ Saved successfully!');toast('User roles updated.','ok');
+}
+
+/* ── WRITE LOG ── */
+async function wLog(sid,actionLabel,detail,color,target,targetRole){
+  if(!CU)return;
+  const actorRole=getRoleInSrv(sid)||CP.role||'';
   const key=DB.ref('servers/'+sid+'/logs').push().key;
-  await DB.ref('servers/'+sid+'/logs/'+key).set({key,actionLabel,action:actionLabel,detail,color,by:CP.ingameName,timestamp:Date.now()});
+  await DB.ref('servers/'+sid+'/logs/'+key).set({
+    key,actionLabel,action:actionLabel,detail:detail||'',color,
+    by:CP.ingameName,actor:CP.ingameName,actorRole,
+    target:target||'',targetRole:targetRole||'',
+    timestamp:Date.now()
+  });
   if(srvLogs[sid])delete DCACHE[sid+'_logs'];
 }
 
@@ -1918,17 +2121,18 @@ function mb(id,type,msg){
 function snArr(sn){const a=[];if(sn&&sn.exists())sn.forEach(c=>{const v=c.val();if(v)a.push({...v,key:c.key});});return a;}
 function byt(a,b){return b.timestamp-a.timestamp;}
 function fmtD(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString();}
+function fmtDT(ts){if(!ts)return'—';const d=new Date(ts);return d.toLocaleDateString()+' '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});}
 function empH(icon,msg){return`<div class="emp"><div class="empi">${icon}</div><p>${msg}</p></div>`;}
 function errH(msg){return`<div class="emp"><div class="empi">⚠️</div><p style="color:var(--r)">${esc(msg)}</p></div>`;}
 function goD(){g('dash').scrollIntoView({behavior:'smooth'});}
 
 function roleGrad(role){
-  const m={citizen:'linear-gradient(135deg,#c9a227,#6b540a)',j_admin:'linear-gradient(135deg,#00e57a,#004d2a)',admin:'linear-gradient(135deg,#ff3355,#5a000a)',senior_admin:'linear-gradient(135deg,#ff9900,#5a3900)',chief_admin:'linear-gradient(135deg,#3b8bff,#04194d)',curator:'linear-gradient(135deg,#b84fff,#2d0060)',owner:'linear-gradient(135deg,#00ffe7,#004d45)'};
+  const m={citizen:'linear-gradient(135deg,#c9a227,#6b540a)',j_admin:'linear-gradient(135deg,#00e57a,#004d2a)',admin:'linear-gradient(135deg,#ff3355,#5a000a)',senior_admin:'linear-gradient(135deg,#ff9900,#5a3900)',chief_admin:'linear-gradient(135deg,#3b8bff,#04194d)',curator:'linear-gradient(135deg,#b84fff,#2d0060)',co_owner:'linear-gradient(135deg,#ff3399,#6b0045)',technical_admin:'linear-gradient(135deg,#78909c,#1c2b33)',owner:'linear-gradient(135deg,#00ffe7,#004d45)'};
   return m[role]||m.citizen;
 }
 
 function rtag(role){
-  const m={citizen:'stcit',j_admin:'stj',admin:'stadm',senior_admin:'stsn',chief_admin:'stch',curator:'stcu',owner:'stow'};
+  const m={citizen:'stcit',j_admin:'stj',admin:'stadm',senior_admin:'stsn',chief_admin:'stch',curator:'stcu',co_owner:'stco',technical_admin:'st_ta',owner:'stow'};
   return m[role]||'stcit';
 }
 
